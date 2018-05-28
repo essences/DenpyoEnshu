@@ -22,8 +22,56 @@ public class Main {
     public String toString() {
         return "Main []";
     }
+
+    static public OutBean tenki( InBean ib )
+    {
+        //転記先の伝票を用意する
+        OutBean ret = new OutBean();
+        //一つしかない項目、日付と取引先と合計金額を書き移す
+        //日付を読み取る
+        LocalDate torihikiDate       = ib.getTorihikiDate();
+        //日付を記入する
+        ret.setTorihikiDate(torihikiDate);
+        //引先を読み取る
+        String torihikisakiName = ib.getTorihikisakiName();
+        //取引先を記入する
+        ret.setTorihikisakiName(   torihikisakiName );
+        //合計金額を読み取る
+        int    goukei         = ib.getGoukei();
+        //合計金額を記入する
+        ret.setGoukei(        goukei );
+
+        //転記先にリストを確保する（確認する）
+        List<OutLineBean> outLineList  =ret.getLines();
+
+        //複数ある項目を一つづ書き写す
+        //下記をなくなるまで繰り返す
+        for( InLineBean il : ib.getLines() )
+        {
+            //一個目の行について行う
+            //転記先の行を確保する（確認する）
+            OutLineBean ol = new OutLineBean();
+            ret.getLines().add( ol );
+
+            //商品名を読みとる
+            String ShouhinName = il.getShouhinName();
+            //商品名を記入する
+            ol.setShouhinName( ShouhinName );
+            //数量を読み取る
+            int suuryo = il.getSuuryo();
+            //数量を記入する
+            ol.setSuuryo(suuryo);
+            //金額を読み取る
+            int kingaku = il.getKingaku();
+            //金額を記入する
+            ol.setKingaku(kingaku);
+            }
+        return ret;
+    }
+
     static OutBean tenkiNoma( InBean ib )
     {
+        //野間版ロジック
         //    1.日付の記入
         //   　・転記対象を確認
         LocalDate date = ib.getTorihikiDate();
@@ -86,7 +134,7 @@ public class Main {
         return ob;
     }
 
-    static OutBean tenki( InBean ib)
+    static OutBean tenkiTakata( InBean ib)
     {
         //	 高田版ロジック
         //    	伝票を用意する。
