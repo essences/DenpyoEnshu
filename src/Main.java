@@ -22,6 +22,69 @@ public class Main {
     public String toString() {
         return "Main []";
     }
+    static OutBean tenkiNoma( InBean ib )
+    {
+        //    1.日付の記入
+        //   　・転記対象を確認
+        LocalDate date = ib.getTorihikiDate();
+        //   　・転記先の確認
+        OutBean ob = new OutBean();
+        //   　・記入する
+        ob.setTorihikiDate(date);
+
+        //   2.取引先の記入
+        //   　・転記対象を確認
+        String torihikisakiName = ib.getTorihikisakiName();
+        //   　・転記先の確認
+        //   　・記入する
+        ob.setTorihikisakiName(torihikisakiName);
+
+        //   3.表の作成
+        List<OutLineBean> outList = ob.getLines();
+        //   4.表に列の項目を記入
+        //   　・転記対象を確認
+        //   　・転記先の確認
+        //   　・記入する
+
+        List<InLineBean> inList = ib.getLines();
+        for( int i =0 ; i < inList.size() ; i++ )
+        {
+            //   5.商品名を記入
+            //   　・転記対象を確認
+            String shouhinName = inList.get(i).getShouhinName();
+            //   　・転記先の確認
+            //   　・記入する
+            outList.get(i).setShouhinName(shouhinName);
+
+            //   6.商品名に対応した数量を記入
+            //   　・転記対象を確認
+            int suuryo = inList.get(i).getSuuryo();
+
+            //   　・転記先の確認
+            //   　・記入する
+            outList.get(i).setSuuryo( suuryo );
+
+            //   7.商品名に対応した金額の記入
+            //   　・転記対象を確認
+            int kingaku = inList.get(i).getKingaku();
+
+            //   　・転記先の確認
+            //   　・記入する
+            outList.get(i).setKingaku( kingaku );
+
+            //   8.5～7を記入対象が終わるまで繰り返す
+            //   その際4行を超える場合は次のページへ
+        }
+        //   9.合計金額の記入
+        //   　・転記対象を確認
+        int goukei = ib.getGoukei();
+
+        //   　・転記先の確認
+        //   　・記入する
+        ob.setGoukei( goukei );
+
+        return ob;
+    }
 
     static OutBean tenki( InBean ib)
     {
@@ -123,10 +186,8 @@ class InBean
     public List<InLineBean> getLines() {
         return lines;
     }
-
-
-
 }
+
 class InLineBean
 {
     private String shouhinName;
